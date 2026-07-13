@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const orderSchema = new mongoose.Schema(
+const transactionSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -10,6 +10,11 @@ const orderSchema = new mongoose.Schema(
     stock: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Stock',
+      required: true,
+    },
+    order: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Order',
       required: true,
     },
     type: {
@@ -32,14 +37,18 @@ const orderSchema = new mongoose.Schema(
       required: true,
       min: 0,
     },
-    status: {
+    balanceAfter: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    note: {
       type: String,
-      enum: ['COMPLETED', 'CANCELLED'],
-      default: 'COMPLETED',
+      trim: true,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Order', orderSchema);
+module.exports = mongoose.model('Transaction', transactionSchema);
 

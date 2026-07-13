@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const orderSchema = new mongoose.Schema(
+const portfolioSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -12,34 +12,26 @@ const orderSchema = new mongoose.Schema(
       ref: 'Stock',
       required: true,
     },
-    type: {
-      type: String,
-      enum: ['BUY', 'SELL'],
-      required: true,
-    },
     quantity: {
       type: Number,
       required: true,
-      min: 1,
+      min: 0,
     },
-    price: {
+    averagePrice: {
       type: Number,
       required: true,
       min: 0,
     },
-    total: {
+    investedAmount: {
       type: Number,
       required: true,
       min: 0,
-    },
-    status: {
-      type: String,
-      enum: ['COMPLETED', 'CANCELLED'],
-      default: 'COMPLETED',
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Order', orderSchema);
+portfolioSchema.index({ user: 1, stock: 1 }, { unique: true });
+
+module.exports = mongoose.model('Portfolio', portfolioSchema);
 
